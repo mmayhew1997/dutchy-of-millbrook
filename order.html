@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom Orders — The Dutchy of Millbrook</title>
+  <meta name="description" content="Order a custom cake from Elizabeth Mayhew — charm, wedding, lattice, or trellis. The Dutchy of Millbrook." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=5" />
+</head>
+<body>
+
+  <header class="nav">
+    <div class="nav-social">
+      <a href="https://www.instagram.com/elizabethmayhew/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="mailto:thedutchyofmillbrook.contact@gmail.com?subject=CAKE" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M3.5 6.5l8.5 6 8.5-6"/></svg>
+      </a>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="order.html" aria-current="page">Custom Orders</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-spacer" aria-hidden="true"></div>
+  </header>
+
+  <section class="page-head">
+    <p class="section-kicker">Custom Orders</p>
+    <h1>Choose your cake</h1>
+    <p class="section-sub">Every cake is a little different. Pick a style to start your inquiry.</p>
+  </section>
+
+  <!-- Four cake types -->
+  <section class="types">
+    <div class="type-grid">
+      <div class="type-card">
+        <h3>Needlepoint</h3>
+        <img src="images/type-needlepoint.jpg" alt="A needlepoint cake" />
+        <button type="button" class="btn btn-primary" data-cake="needlepoint">Inquire</button>
+      </div>
+      <div class="type-card">
+        <h3>Wedding</h3>
+        <img src="images/type-wedding.jpg" alt="A wedding cake" />
+        <button type="button" class="btn btn-primary" data-cake="wedding">Inquire</button>
+      </div>
+      <div class="type-card">
+        <h3>Charm</h3>
+        <img src="images/type-charm.jpg" alt="A charm cake" />
+        <button type="button" class="btn btn-primary" data-cake="charm">Inquire</button>
+      </div>
+      <div class="type-card">
+        <h3>Trellis</h3>
+        <img src="images/type-trellis.jpg" alt="A trellis cake" />
+        <button type="button" class="btn btn-primary" data-cake="trellis">Inquire</button>
+      </div>
+      <div class="type-card">
+        <h3>Other</h3>
+        <img src="images/type-other.jpg" alt="A book cake — custom designs" />
+        <button type="button" class="btn btn-primary" data-cake="other">Inquire</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================= INQUIRY MODAL ================= -->
+  <div class="modal" id="orderModal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" type="button" data-close aria-label="Close">&times;</button>
+      <p class="section-kicker">Inquiry</p>
+      <h2 class="modal-title" id="modalTitle">Charm Cake</h2>
+      <p class="form-fineprint" style="margin: 2px 0 18px;">This sends your inquiry straight to Elizabeth — photos included. It’s a request, not a confirmed order; she’ll reply personally.</p>
+
+      <form class="intake-modal" id="intakeForm" action="mailto:thedutchyofmillbrook.contact@gmail.com" method="POST">
+        <input type="hidden" id="product" name="Cake type" value="" />
+
+        <h4 class="form-group form-group-first">Your details</h4>
+        <div class="field">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="Name" required />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="Email" required />
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="Phone" required />
+          </div>
+        </div>
+
+        <h4 class="form-group">Your event</h4>
+        <div class="field-row">
+          <div class="field">
+            <label for="occasion">Occasion</label>
+            <input type="text" id="occasion" required name="Occasion" placeholder="Birthday, anniversary, shower…" />
+          </div>
+          <div class="field">
+            <label for="eventDate">Date you need it</label>
+            <input type="date" id="eventDate" required name="Date needed" />
+          </div>
+        </div>
+
+        <!-- ===== Charm ===== -->
+        <div class="cond" data-when="charm">
+          <h4 class="form-group">Size &amp; starting price</h4>
+          <div class="field">
+            <label for="size">Charm cake size</label>
+            <select id="size" name="Size" required>
+              <option value="" disabled selected>Choose…</option>
+              <option>8″ — serves 12–16 — $650</option>
+              <option>10″ — serves 22–24 — $850</option>
+              <option>½ sheet — serves 50–60 — $2,500</option>
+              <option>Not sure yet</option>
+            </select>
+            <p class="form-hint">8″ from $650 · 10″ from $850 · ½ sheet from $2,500</p>
+          </div>
+          <h4 class="form-group">Your charms</h4>
+          <div class="field">
+            <label for="charmInput">Add your charms <span class="opt">(most important first — drag to reorder)</span></label>
+            <div class="charm-add">
+              <input type="text" id="charmInput" placeholder="e.g. our dog Biscuit, tennis, NYC…" />
+              <button type="button" class="btn btn-primary" id="charmAdd">Add</button>
+            </div>
+            <ol class="charm-list" id="charmList"></ol>
+            <p class="note">There’s no set number — it depends on how complicated they are and whether they can scale down. She’ll work down your list and fit on as many as possible, so add them <strong>most important first</strong>. For pets or anything obscure, upload a photo below.</p>
+          </div>
+          <div class="field">
+            <label for="inscription">Inscription</label>
+            <input type="text" id="inscription" name="Inscription" placeholder="e.g. Happy Birthday · Congratulations" />
+          </div>
+        </div>
+
+        <!-- ===== Wedding ===== -->
+        <div class="cond" data-when="wedding">
+          <h4 class="form-group">Size &amp; details</h4>
+          <div class="field-row">
+            <div class="field">
+              <label for="guests">Guest count</label>
+              <input type="text" id="guests" required name="Guest count" placeholder="Approx. number" />
+            </div>
+            <div class="field">
+              <label for="tiers">Tiers</label>
+              <select id="tiers" required name="Tiers">
+                <option value="" disabled selected>Choose…</option>
+                <option>1</option><option>2</option><option>3</option><option>4+</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+          </div>
+          <p class="form-hint">Wedding cakes are bespoke — priced by size &amp; the complexity of the design.</p>
+          <h4 class="form-group">The design</h4>
+          <div class="field">
+            <label for="wvision">Your vision</label>
+            <textarea id="wvision" name="Vision" rows="4" placeholder="Style, colors, florals, references you love…"></textarea>
+          </div>
+          <div class="field">
+            <label for="venue">Venue / location</label>
+            <input type="text" id="venue" name="Venue" placeholder="Where's the celebration?" />
+          </div>
+        </div>
+
+        <!-- ===== Needlepoint ===== -->
+        <div class="cond" data-when="needlepoint">
+          <h4 class="form-group">Size &amp; details</h4>
+          <div class="field-row">
+            <div class="field">
+              <label for="lsize">Size / servings</label>
+              <input type="text" id="lsize" required name="Size" placeholder="Approx. number of guests" />
+            </div>
+            <div class="field">
+              <label for="lcolor">Colors</label>
+              <input type="text" id="lcolor" name="Needlepoint colors" placeholder="e.g. pink, yellow, blue…" />
+            </div>
+          </div>
+          <p class="form-hint">Bespoke — priced by size &amp; design.</p>
+          <div class="field">
+            <label for="linscription">Inscription <span class="opt">(optional)</span></label>
+            <input type="text" id="linscription" name="Inscription" />
+          </div>
+        </div>
+
+        <!-- ===== Trellis ===== -->
+        <div class="cond" data-when="trellis">
+          <h4 class="form-group">Size &amp; details</h4>
+          <div class="field-row">
+            <div class="field">
+              <label for="tsize">Size / servings</label>
+              <input type="text" id="tsize" required name="Size" placeholder="Approx. number of guests" />
+            </div>
+            <div class="field">
+              <label for="tcolor">Trellis colors / florals</label>
+              <input type="text" id="tcolor" name="Trellis style" placeholder="e.g. green trellis, roses…" />
+            </div>
+          </div>
+          <p class="form-hint">Bespoke — priced by size &amp; design.</p>
+          <div class="field">
+            <label for="tinscription">Inscription <span class="opt">(optional)</span></label>
+            <input type="text" id="tinscription" name="Inscription" />
+          </div>
+        </div>
+
+        <!-- ===== Other ===== -->
+        <div class="cond" data-when="other">
+          <h4 class="form-group">Your idea</h4>
+          <div class="field">
+            <label for="otherDesc">Tell Elizabeth what you’re imagining</label>
+            <textarea id="otherDesc" name="Idea" rows="4" placeholder="A book cake, a theme, a shape, a reference you love…"></textarea>
+          </div>
+        </div>
+
+        <!-- ===== Common to every cake ===== -->
+        <div class="cond" data-when="*">
+          <h4 class="form-group">Flavor &amp; finish</h4>
+          <div class="field-row">
+            <div class="field">
+              <label for="flavor">Cake flavor</label>
+              <select id="flavor" required name="Flavor">
+                <option value="" disabled selected>Choose…</option>
+                <option>White</option>
+                <option>Chocolate</option>
+                <option>Carrot</option>
+                <option>Other — she can make almost anything</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="filling">Filling</label>
+              <select id="filling" required name="Filling">
+                <option value="" disabled selected>Choose…</option>
+                <option>Chocolate ganache</option>
+                <option>Chocolate hazelnut</option>
+                <option>Raspberry jam</option>
+                <option>Cherry jam</option>
+                <option>Passion fruit</option>
+                <option>Lemon curd</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="sides">Sides of the cake</label>
+            <select id="sides" required name="Sides">
+              <option value="" disabled selected>Choose…</option>
+              <option>Bows</option>
+              <option>Tassels</option>
+            </select>
+          </div>
+          <h4 class="form-group">Pickup &amp; delivery</h4>
+          <div class="field">
+            <label for="fulfillment">Pickup or delivery?</label>
+            <select id="fulfillment" required name="Fulfillment">
+              <option value="" disabled selected>Choose…</option>
+              <option>Pickup — Upper West Side, NYC</option>
+              <option>Pickup — Millbrook (Sat/Sun)</option>
+              <option>Delivery — please send a quote</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="address">If delivery, your address <span class="opt">(she’ll send a quote)</span></label>
+            <input type="text" id="address" name="Delivery address" placeholder="Street, city, ZIP" />
+          </div>
+          <h4 class="form-group">Photos &amp; notes</h4>
+          <div class="field">
+            <label for="photos">Upload photos <span class="opt">(pets, references — add as many as you like)</span></label>
+            <input type="file" id="photos" name="Photos" accept="image/*,application/pdf" multiple />
+            <p class="upload-list" id="uploadList" hidden></p>
+          </div>
+          <div class="field">
+            <label for="notes">Anything else?</label>
+            <textarea id="notes" name="Notes" rows="3" placeholder="Dietary needs, questions — anything that helps."></textarea>
+          </div>
+          <p class="note">The outside is always vanilla French buttercream. Please remember — cakes must be refrigerated.</p>
+          <button type="submit" class="btn btn-primary btn-block">Send my inquiry</button>
+        </div>
+      </form>
+      <p class="contact-thanks" id="orderStatus" hidden></p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <img src="images/logo-white.png" alt="The Dutchy of Millbrook" class="footer-logo" />
+    <p class="footer-brand">The Dutchy <em>of</em> Millbrook</p>
+    <p class="footer-quick-label">Quick Links</p>
+    <nav class="footer-links-list">
+      <a href="order.html">Let me charm you</a>
+      <a href="charm-visualizer.html" target="_blank" rel="noopener">Visualize Your Charms</a>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="faq.html">Frequently Asked Questions</a>
+      <a href="terms.html">Terms and Conditions</a>
+    </nav>
+    <p class="footer-links">
+      <a href="https://www.instagram.com/elizabethmayhew/" target="_blank" rel="noopener">Instagram</a>
+      <span>·</span>
+      <a href="mailto:thedutchyofmillbrook.contact@gmail.com?subject=CAKE">thedutchyofmillbrook.contact@gmail.com</a>
+    </p>
+    <p class="footer-fine">© Elizabeth Mayhew. Made with buttercream and a little patience.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

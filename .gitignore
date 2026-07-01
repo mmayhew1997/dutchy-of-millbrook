@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# Raw source photos (166 MB of originals not used by the site).
+# Kept local only — back these up separately (iCloud/Drive), not in git.
+Real Photos/
+
+# Editor / OS cruft
+*.swp
+*~
+.vscode/
+.idea/
+
+# Potential customer PII — keep out of the public repo
+assets/Sample order form.PNG

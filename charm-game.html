@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Charm Someone — A Charm Cake Game · The Dutchy of Millbrook</title>
+  <meta name="description" content="A little game: build a charm cake for someone you love. Pick their world, charm by charm, and reveal your creation." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Inter:wght@300;400;500&family=Caveat:wght@500;700&family=Dancing+Script:wght@500;700&family=Playfair+Display:wght@500;700&family=Sacramento&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ===== Charm Cake Game — page chrome ===== */
+    .g-app { min-height: 100vh; }
+    .g-wrap { max-width: 1120px; margin: 0 auto; padding: 8px 20px 60px; }
+    .g-game { display: grid; grid-template-columns: minmax(0,1fr) 380px; gap: 34px; align-items: start; }
+    @media (max-width: 880px){ .g-game { grid-template-columns: 1fr; } }
+
+    /* progress rail */
+    .g-steps { display: flex; gap: 8px; justify-content: center; margin: 4px 0 22px; }
+    .g-steps .s { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; color: var(--cream-dim); font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; opacity: .5; }
+    .g-steps .s .n { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font-size: .74rem; }
+    .g-steps .s.is-active { opacity: 1; color: var(--pink); }
+    .g-steps .s.is-active .n { border-color: var(--pink); background: rgba(242,184,198,.14); color: var(--pink); }
+    .g-steps .s.is-done { opacity: .9; color: var(--green); }
+    .g-steps .s.is-done .n { border-color: var(--green); color: var(--green); }
+    .g-steps .bar { width: 26px; height: 1px; background: var(--line); align-self: center; }
+    @media (max-width: 560px){ .g-steps .s span { display:none; } }
+
+    /* charm meter */
+    .g-meter { margin: 0 0 14px; }
+    .g-meter .track { height: 10px; border-radius: 999px; background: rgba(247,239,224,.1); overflow: hidden; }
+    .g-meter .fill { height: 100%; width: 0; border-radius: 999px; background: linear-gradient(90deg, var(--pink), var(--pink-deep)); transition: width .35s cubic-bezier(.2,.8,.2,1); }
+    .g-meter .lbl { display: flex; justify-content: space-between; font-size: .74rem; letter-spacing: .06em; text-transform: uppercase; color: var(--cream-dim); margin-bottom: 6px; }
+
+    /* right panel */
+    .g-panel { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 8px; padding: 22px 20px; box-shadow: var(--shadow); }
+    .g-panel h2 { font-size: 1.15rem; margin: 0 0 4px; color: var(--pink); }
+    .g-panel .sub { color: var(--cream-dim); font-size: .86rem; margin: 0 0 16px; line-height: 1.5; }
+    .g-stepwrap { display: none; }
+    .g-stepwrap.is-active { display: block; animation: gfade .3s ease; }
+    @keyframes gfade { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: none; } }
+
+    /* swatches */
+    .g-swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+    .g-sw { width: 30px; height: 30px; border-radius: 50%; border: 2px solid transparent; background: var(--sw); cursor: pointer; box-shadow: 0 0 0 1px rgba(0,0,0,.2) inset; }
+    .g-sw.is-active { border-color: var(--cream); transform: scale(1.12); }
+    .g-sw-none { background: #2b2018; color: var(--cream-dim); font-size: 1rem; display: grid; place-items: center; }
+
+    /* charm categories */
+    .g-cats { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .g-cat { padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--cream-dim); font-size: .8rem; cursor: pointer; letter-spacing: .03em; }
+    .g-cat.is-active { background: var(--pink); color: var(--ink); border-color: var(--pink); }
+    .g-tray { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; max-height: 260px; overflow-y: auto; padding-right: 4px; }
+    .g-charm { aspect-ratio: 1; border: 1px solid var(--line); background: rgba(247,239,224,.04); border-radius: 8px; font-size: 1.35rem; cursor: pointer; display: grid; place-items: center; transition: transform .12s, background .12s; }
+    .g-charm:hover { background: rgba(242,184,198,.16); transform: translateY(-2px); }
+    .g-charm img { width: 26px; height: 26px; }
+    .g-search { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg-deep); color: var(--cream); margin-bottom: 10px; font-size: .9rem; }
+
+    /* inscription */
+    .g-text-input, .g-font { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg-deep); color: var(--cream); font-size: .95rem; margin-bottom: 10px; }
+    .g-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .g-chip { padding: 6px 11px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--cream-dim); font-size: .8rem; cursor: pointer; }
+    .g-chip:hover { border-color: var(--pink); color: var(--pink); }
+
+    /* nav buttons */
+    .g-nav { display: flex; gap: 10px; margin-top: 20px; }
+    .g-nav .btn { flex: 1; }
+
+    /* live reaction toast */
+    .g-toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(20px); background: var(--pink); color: var(--ink); padding: 10px 18px; border-radius: 999px; font-weight: 500; letter-spacing: .02em; box-shadow: var(--shadow); opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 60; }
+    .g-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ===== start + reveal overlays ===== */
+    .g-overlay { position: fixed; inset: 0; background: rgba(20,12,7,.82); backdrop-filter: blur(4px); display: none; place-items: center; z-index: 80; padding: 20px; }
+    .g-overlay.is-open { display: grid; }
+    .g-card { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); max-width: 460px; width: 100%; padding: 34px 28px; text-align: center; animation: gpop .35s cubic-bezier(.2,1.1,.3,1); }
+    @keyframes gpop { from { opacity:0; transform: scale(.94) translateY(10px);} to { opacity:1; transform:none; } }
+    .g-card .crown { font-size: 2.2rem; }
+    .g-card h2 { color: var(--pink); margin: 8px 0 6px; font-size: 1.5rem; }
+    .g-card p { color: var(--cream-dim); line-height: 1.55; margin: 0 0 18px; }
+    .g-name-input { width: 100%; padding: 13px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg-deep); color: var(--cream); font-size: 1.05rem; text-align: center; margin-bottom: 16px; }
+    .g-stars { font-size: 1.8rem; letter-spacing: .1em; margin: 6px 0 4px; }
+    .g-score-note { color: var(--pink); font-weight: 500; letter-spacing: .04em; margin: 0 0 16px; }
+    .g-reveal-cake { border-radius: 12px; overflow: hidden; margin: 0 auto 16px; max-width: 300px; box-shadow: var(--shadow); }
+    .g-reveal-cake img { display: block; width: 100%; }
+    .g-card .btn { width: 100%; margin-top: 8px; }
+    .g-card .btn + .btn { margin-top: 8px; }
+
+    /* confetti */
+    .g-confetti { position: fixed; inset: 0; pointer-events: none; z-index: 90; overflow: hidden; }
+    .g-confetti span { position: absolute; top: -30px; font-size: 20px; animation: gfall linear forwards; }
+    @keyframes gfall { to { transform: translateY(105vh) rotate(720deg); opacity: .9; } }
+  </style>
+</head>
+<body class="cv-app g-app">
+
+  <header class="cv-topbar">
+    <a href="index.html" class="cv-back">← Back to the Dutchy</a>
+    <a href="index.html" class="cv-topbar-brand">
+      <img src="images/logo-white.png" alt="The Dutchy of Millbrook" />
+      <span class="cv-studio-title">Charm Cake Game</span>
+    </a>
+    <a href="charm-visualizer.html" class="btn btn-ghost cv-order">Free-play studio</a>
+  </header>
+
+  <div class="g-wrap">
+    <!-- progress -->
+    <div class="g-steps" id="gSteps">
+      <div class="s" data-for="border"><span class="n">1</span><span>Border</span></div>
+      <div class="bar"></div>
+      <div class="s" data-for="charms"><span class="n">2</span><span>Their world</span></div>
+      <div class="bar"></div>
+      <div class="s" data-for="words"><span class="n">3</span><span>A few words</span></div>
+    </div>
+
+    <main class="g-game">
+      <!-- cake stage (reuses studio styles) -->
+      <div class="cv-stage-col">
+        <div class="cv-stage" id="gStage">
+          <div class="cv-cake" id="gCake"></div>
+          <svg class="cv-scallop-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+            <path id="gScallop" d="" fill="none" stroke="#E2789A" stroke-width="1.3" stroke-linejoin="round" />
+          </svg>
+          <div class="cv-layer" id="gLayer"></div>
+        </div>
+        <p class="cv-hint">Drag to move · <span class="dot blue"></span> resize · <span class="dot green"></span> rotate · <span class="dot red"></span> delete</p>
+      </div>
+
+      <!-- guided panel -->
+      <div class="g-panel">
+        <div class="g-meter">
+          <div class="lbl"><span>Charm meter</span><span id="gMeterPct">0%</span></div>
+          <div class="track"><div class="fill" id="gMeterFill"></div></div>
+        </div>
+
+        <!-- STEP 1: border -->
+        <section class="g-stepwrap" data-step="border">
+          <h2>Choose a border</h2>
+          <p class="sub">Every charm cake starts with a scalloped edge. Pick a color that feels like <strong id="gWho1">them</strong>.</p>
+          <div class="g-swatches" id="gSwatches"></div>
+        </section>
+
+        <!-- STEP 2: charms -->
+        <section class="g-stepwrap" data-step="charms">
+          <h2>Add their world</h2>
+          <p class="sub">Tap the things <strong id="gWho2">they</strong> love — hobbies, pets, places. Each one is a charm.</p>
+          <div class="g-cats" id="gCats"></div>
+          <input type="text" class="g-search" id="gSearch" placeholder="Search anything — corgi, mahjong, peony…" />
+          <div class="g-tray" id="gTray"></div>
+        </section>
+
+        <!-- STEP 3: words -->
+        <section class="g-stepwrap" data-step="words">
+          <h2>Say something sweet</h2>
+          <p class="sub">A name, a date, an inside joke. Keep it short so it reads in buttercream.</p>
+          <div class="g-chips" id="gChips"></div>
+          <input type="text" class="g-text-input" id="gText" maxlength="40" placeholder="Happy Birthday · Mom · Est. 1974…" />
+          <select class="g-font" id="gFont">
+            <option value="'Dancing Script', cursive" style="font-family:'Dancing Script',cursive">Script</option>
+            <option value="'Caveat', cursive" style="font-family:'Caveat',cursive">Handwritten</option>
+            <option value="'Sacramento', cursive" style="font-family:'Sacramento',cursive">Calligraphy</option>
+            <option value="'Playfair Display', serif" style="font-family:'Playfair Display',serif">Serif</option>
+            <option value="'Jost', sans-serif" style="font-family:'Jost',sans-serif">Block</option>
+          </select>
+          <button type="button" class="btn btn-ghost" id="gAddText" style="width:100%">Add to cake</button>
+        </section>
+
+        <div class="g-nav">
+          <button type="button" class="btn btn-ghost" id="gBack">← Back</button>
+          <button type="button" class="btn btn-primary" id="gNext">Next →</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- live reaction toast -->
+  <div class="g-toast" id="gToast"></div>
+
+  <!-- START overlay -->
+  <div class="g-overlay is-open" id="gStartOverlay">
+    <div class="g-card">
+      <div class="crown">🎂</div>
+      <h2>Charm someone</h2>
+      <p>Build a charm cake for someone you love. Who are we charming today?</p>
+      <input type="text" class="g-name-input" id="gNameInput" maxlength="28" placeholder="Mom · Coach Dave · Sarah's 30th…" />
+      <button type="button" class="btn btn-primary" id="gStartBtn" style="width:100%">Start building →</button>
+    </div>
+  </div>
+
+  <!-- REVEAL overlay -->
+  <div class="g-overlay" id="gRevealOverlay">
+    <div class="g-card">
+      <div class="crown">👑</div>
+      <h2 id="gRevealTitle">You charmed them!</h2>
+      <div class="g-stars" id="gRevealStars">★★★★★</div>
+      <p class="g-score-note" id="gRevealNote">Master charmer</p>
+      <div class="g-reveal-cake" id="gRevealCake"></div>
+      <p id="gRevealBlurb">Beautiful. Elizabeth could make this real in buttercream.</p>
+      <a href="order.html#charm" class="btn btn-primary" id="gOrderBtn">Order this cake for real →</a>
+      <button type="button" class="btn btn-ghost" id="gShareBtn">Share your cake</button>
+      <button type="button" class="btn btn-ghost" id="gAgainBtn">Charm someone else</button>
+    </div>
+  </div>
+
+  <div class="g-confetti" id="gConfetti" style="display:none"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="charm-game.js"></script>
+</body>
+</html>

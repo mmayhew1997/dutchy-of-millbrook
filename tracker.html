@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Book — The Dutchy of Millbrook</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="tracker-app">
+
+  <header class="cv-topbar">
+    <span aria-hidden="true"></span>
+    <span class="cv-topbar-brand">
+      <img src="images/logo-white.png" alt="The Dutchy of Millbrook" />
+      <span class="cv-studio-title">Order Book</span>
+    </span>
+    <button type="button" class="btn btn-ghost cv-order" id="tkLogout" hidden>Sign out</button>
+  </header>
+
+  <!-- Login -->
+  <section class="tk-login" id="tkLogin" hidden>
+    <form class="intake" id="tkLoginForm">
+      <h2 class="modal-title">Welcome back</h2>
+      <p class="form-fineprint" style="margin:0 0 18px">Sign in to your Order Book.</p>
+      <div class="field">
+        <label for="tkEmail">Email</label>
+        <input type="email" id="tkEmail" required />
+      </div>
+      <div class="field">
+        <label for="tkPassword">Password</label>
+        <input type="password" id="tkPassword" required />
+      </div>
+      <label class="tk-remember"><input type="checkbox" id="tkRemember" checked /> Remember me on this device</label>
+      <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+      <p class="form-fineprint" id="tkLoginError" hidden style="color:#c0392b"></p>
+    </form>
+  </section>
+
+  <!-- Not configured yet -->
+  <section class="tk-setup" id="tkSetup" hidden>
+    <p>The Order Book isn’t connected yet. Add your Supabase URL + key in <code>supabase-config.js</code>.</p>
+  </section>
+
+  <!-- Order views -->
+  <section class="tk-board-wrap" id="tkBoard" hidden>
+    <div class="tk-tabs">
+      <button type="button" class="tk-tab is-active" data-view="board">▤ Board</button>
+      <button type="button" class="tk-tab" data-view="table">▦ Table</button>
+      <button type="button" class="tk-tab" data-view="history">✓ History</button>
+    </div>
+
+    <div class="tk-toolbar" id="tkToolbar">
+      <div class="tk-filters">
+        <input type="search" id="tkSearch" placeholder="Search name, email, phone, details…" />
+        <select id="tkStageFilter">
+          <option value="">All stages</option>
+          <option>Inquiry</option><option>Confirmed</option><option>Baking</option><option>Ready</option><option>Delivered</option>
+        </select>
+        <select id="tkPaidFilter">
+          <option value="">Paid &amp; unpaid</option>
+          <option value="unpaid">Unpaid only</option>
+          <option value="paid">Paid only</option>
+        </select>
+      </div>
+      <div class="tk-toolbar-right">
+        <span class="tk-stats" id="tkStats"></span>
+        <button type="button" class="btn btn-primary" id="tkAdd">+ New order</button>
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="tk-view" id="tkTableView" hidden>
+      <div class="tk-table-wrap">
+        <table class="tk-table">
+          <thead>
+            <tr>
+              <th data-sort="customer_name">Customer ↕</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Cake</th>
+              <th>Occasion</th>
+              <th data-sort="date_needed">Needed ↕</th>
+              <th>Stage</th>
+              <th data-sort="total">Total ↕</th>
+              <th>Deposit</th>
+              <th>Balance</th>
+              <th>Paid</th>
+              <th data-sort="created_at">Added ↕</th>
+              <th></th><th></th>
+            </tr>
+          </thead>
+          <tbody id="tkRows"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- BOARD -->
+    <div class="tk-view" id="tkCardsView">
+      <div class="tk-board" id="tkColumns"></div>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="tk-view" id="tkHistoryView" hidden>
+      <p class="tk-history-summary" id="tkHistorySummary"></p>
+      <div class="tk-table-wrap">
+        <table class="tk-table">
+          <thead><tr><th>Customer</th><th>Cake</th><th>Date</th><th>Total</th><th>Paid</th><th></th></tr></thead>
+          <tbody id="tkHistoryRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="tracker.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Charm Cake Studio — The Dutchy of Millbrook</title>
+  <meta name="description" content="Design your own charm cake — add a scalloped edge, an inscription, and charms you can move, resize, and rotate." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Inter:wght@300;400;500&family=Caveat:wght@500;700&family=Dancing+Script:wght@500;700&family=Playfair+Display:wght@500;700&family=Sacramento&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="cv-app">
+
+  <header class="cv-topbar">
+    <a href="index.html" class="cv-back">← Back to the Dutchy</a>
+    <a href="index.html" class="cv-topbar-brand">
+      <img src="images/logo-white.png" alt="The Dutchy of Millbrook" />
+      <span class="cv-studio-title">Charm Cake Studio</span>
+    </a>
+    <a href="order.html#charm" class="btn btn-primary cv-order">Order a cake</a>
+  </header>
+
+  <h1 class="cv-title">Dream up your own charm cake</h1>
+  <p class="cv-disclaimer">Just for fun — not an exact preview. In buttercream, writing and fine details need to be fairly large to read, while a small charm (a strawberry, say) can stay tiny. Elizabeth will make your idea work.</p>
+
+  <main class="cv-wrap">
+    <!-- The cake stage -->
+    <div class="cv-stage-col">
+      <div class="cv-stage" id="cvStage">
+        <div class="cv-cake" id="cvCake"></div>
+        <svg class="cv-scallop-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+          <path id="cvScallop" d="" fill="none" stroke="#E2789A" stroke-width="1.3" stroke-linejoin="round" />
+        </svg>
+        <div class="cv-layer" id="cvLayer"></div>
+      </div>
+      <p class="cv-hint">Drag to move · <span class="dot blue"></span> corner to resize · <span class="dot green"></span> to rotate · <span class="dot red"></span> to delete</p>
+      <div class="cv-actions">
+        <button type="button" class="btn btn-ghost" id="cvClear">Clear cake</button>
+        <button type="button" class="btn btn-ghost" id="cvDownload">Download</button>
+        <a href="order.html#charm" class="btn btn-primary">Order a cake like this</a>
+      </div>
+    </div>
+
+    <!-- The controls -->
+    <div class="cv-panel">
+      <div class="cv-section">
+        <h3>Scalloped edge</h3>
+        <div class="cv-swatches">
+          <button type="button" class="cv-swatch is-active" data-scallop="#E2789A" style="--sw:#E2789A" aria-label="Pink"></button>
+          <button type="button" class="cv-swatch" data-scallop="#C0392B" style="--sw:#C0392B" aria-label="Red"></button>
+          <button type="button" class="cv-swatch" data-scallop="#E07856" style="--sw:#E07856" aria-label="Coral"></button>
+          <button type="button" class="cv-swatch" data-scallop="#E08A2B" style="--sw:#E08A2B" aria-label="Orange"></button>
+          <button type="button" class="cv-swatch" data-scallop="#C9A227" style="--sw:#C9A227" aria-label="Gold"></button>
+          <button type="button" class="cv-swatch" data-scallop="#4F7A3F" style="--sw:#4F7A3F" aria-label="Green"></button>
+          <button type="button" class="cv-swatch" data-scallop="#7FB069" style="--sw:#7FB069" aria-label="Mint"></button>
+          <button type="button" class="cv-swatch" data-scallop="#2C8C8C" style="--sw:#2C8C8C" aria-label="Teal"></button>
+          <button type="button" class="cv-swatch" data-scallop="#7FA8D0" style="--sw:#7FA8D0" aria-label="Light blue"></button>
+          <button type="button" class="cv-swatch" data-scallop="#21345B" style="--sw:#21345B" aria-label="Navy"></button>
+          <button type="button" class="cv-swatch" data-scallop="#7A4FA0" style="--sw:#7A4FA0" aria-label="Purple"></button>
+          <button type="button" class="cv-swatch" data-scallop="#6E4A2F" style="--sw:#6E4A2F" aria-label="Brown"></button>
+          <button type="button" class="cv-swatch" data-scallop="#2B2018" style="--sw:#2B2018" aria-label="Dark"></button>
+          <label class="cv-color" title="Any color"><input type="color" id="cvColor" value="#E2789A" /></label>
+          <button type="button" class="cv-swatch cv-swatch-none" data-scallop="none" aria-label="None">∅</button>
+        </div>
+      </div>
+
+      <div class="cv-section">
+        <h3>Add text or initials</h3>
+        <input type="text" id="cvText" class="cv-text-input" placeholder="Happy Birthday · ECM …" maxlength="40" />
+        <select id="cvFont" class="cv-font" title="Font">
+          <option value="'Dancing Script', cursive" style="font-family:'Dancing Script',cursive">Script</option>
+          <option value="'Caveat', cursive" style="font-family:'Caveat',cursive">Handwritten</option>
+          <option value="'Sacramento', cursive" style="font-family:'Sacramento',cursive">Calligraphy</option>
+          <option value="'Playfair Display', serif" style="font-family:'Playfair Display',serif">Serif</option>
+          <option value="'Jost', sans-serif" style="font-family:'Jost',sans-serif">Block</option>
+        </select>
+        <div class="cv-textrow cv-textopts">
+          <label class="cv-colorpick" title="Text color">
+            <input type="color" id="cvTextColor" value="#E2789A" />
+            <span>Color</span>
+          </label>
+          <button type="button" class="btn btn-primary" id="cvAddText">Add</button>
+        </div>
+      </div>
+
+      <div class="cv-section">
+        <h3>Upload your own</h3>
+        <p class="cv-note">A <strong>school logo</strong>, a <strong>specific flower</strong>, your pet — anything particular. Upload a picture and it becomes a charm.</p>
+        <label class="cv-upload-btn">Upload image<input type="file" id="cvUpload" accept="image/*" hidden /></label>
+      </div>
+
+      <div class="cv-section cv-section-charms">
+        <h3>Search for a charm</h3>
+        <input type="text" id="cvSearch" class="cv-search" placeholder="Search images — dog, tennis, peonies…" />
+        <div class="cv-palette" id="cvSearchResults"></div>
+      </div>
+
+      <div class="cv-section cv-section-charms">
+        <h3>Emoji charms</h3>
+        <div class="cv-palette" id="cvEmoji"></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="charm.js"></script>
+</body>
+</html>
