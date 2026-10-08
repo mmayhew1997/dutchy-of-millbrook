@@ -180,24 +180,3 @@ if (modal) {
   const want = (location.hash || '').replace('#', '');
   if (want && LABELS[want]) openModal(want);
 }
-
-// ----- Portfolio: click a photo to zoom it in a lightbox -----
-const pgrid = document.querySelector('.pgrid');
-const lightbox = document.getElementById('lightbox');
-if (pgrid && lightbox) {
-  const lbImg = lightbox.querySelector('img');
-  const closeLb = () => {
-    lightbox.classList.remove('open');
-    document.body.style.overflow = '';
-  };
-  pgrid.addEventListener('click', (e) => {
-    if (e.target.tagName !== 'IMG') return;
-    lbImg.src = e.target.src;
-    lightbox.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  });
-  lightbox.addEventListener('click', closeLb);
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeLb();
-  });
-}

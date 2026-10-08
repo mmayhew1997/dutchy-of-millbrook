@@ -79,6 +79,7 @@ em { font-style: normal; color: var(--pink); }
 /* interior page header */
 .page-head { text-align: center; max-width: 760px; margin: 0 auto; padding: clamp(44px, 6vw, 84px) clamp(20px, 6vw, 60px) 0; }
 .page-head h1 { font-size: clamp(2rem, 4.5vw, 3rem); margin: 8px 0 0; }
+.page-head-pink h1 { color: var(--pink); margin-top: 0; }
 .page-head .section-sub { margin-top: 14px; }
 /* tighten the gap between a page heading and the content below it */
 .page-head + section { padding-top: clamp(20px, 3.5vw, 44px); }
@@ -232,19 +233,32 @@ h2, .section-kicker { text-align: center; }
 .pgrid { column-count: 4; column-gap: 12px; }
 .pgrid img {
   width: 100%; margin: 0 0 12px; border-radius: 3px; display: block;
-  break-inside: avoid; box-shadow: var(--shadow); cursor: zoom-in;
+  break-inside: avoid; box-shadow: var(--shadow); cursor: pointer;
   transition: opacity .15s ease;
 }
 .pgrid img:hover { opacity: 0.9; }
 
-/* lightbox / zoom */
+/* lightbox / zoom (lightbox.js) */
+.home-grid img, .pgrid img { cursor: pointer; }
 .lightbox {
   position: fixed; inset: 0; z-index: 200; display: none;
-  align-items: center; justify-content: center; padding: 4vh 4vw;
-  background: rgba(14, 7, 3, 0.93); cursor: zoom-out;
+  align-items: center; justify-content: center;
+  padding: calc(64px + env(safe-area-inset-top, 0px)) 4vw calc(24px + env(safe-area-inset-bottom, 0px));
+  background: rgba(30, 18, 11, 0.45); cursor: pointer;
 }
-.lightbox.open { display: flex; }
-.lightbox img { max-width: 92vw; max-height: 92vh; border-radius: 4px; box-shadow: 0 24px 70px rgba(0,0,0,0.6); }
+.lightbox.open { display: flex; animation: lb-in .18s ease; }
+.lightbox img {
+  max-width: min(84vw, 560px); max-height: 72vh; object-fit: contain;
+  border-radius: 4px; box-shadow: 0 24px 70px rgba(0,0,0,0.6); cursor: default;
+}
+.lightbox-close {
+  position: absolute; top: calc(14px + env(safe-area-inset-top, 0px)); right: 14px;
+  width: 44px; height: 44px; padding: 10px; border: 0; background: none;
+  color: #fff; cursor: pointer; border-radius: 50%;
+}
+.lightbox-close svg { width: 100%; height: 100%; display: block; }
+.lightbox-close:hover, .lightbox-close:focus-visible { background: rgba(255,255,255,0.12); outline: none; }
+@keyframes lb-in { from { opacity: 0; } to { opacity: 1; } }
 
 /* ---------- FAQ accordion ---------- */
 .faq { max-width: 760px; margin: 0 auto; padding: clamp(28px,4vw,48px) clamp(20px,6vw,72px) clamp(48px,7vw,96px); }
@@ -268,6 +282,7 @@ h2, .section-kicker { text-align: center; }
 .terms h2:first-child { margin-top: 0; }
 .terms p { color: var(--cream-dim); margin: 0 0 14px; letter-spacing: 0.02em; font-size: 1rem; line-height: 1.7; }
 .terms-contact { text-align: center; margin-top: 40px !important; }
+.faq-cta h2 { font-size: 1.05rem; letter-spacing: 0.16em; color: var(--pink); margin: 0 0 12px; }
 .faq-cta p { color: var(--cream-dim); margin: 0 0 14px; letter-spacing: 0.05em; }
 
 /* ---------- Custom Orders: cake-type cards ---------- */
@@ -291,8 +306,9 @@ h2, .section-kicker { text-align: center; }
   background: var(--paper); color: var(--ink); border-radius: 8px;
   padding: clamp(26px, 4vw, 42px); box-shadow: 0 30px 80px rgba(0,0,0,0.5);
 }
-.modal-card .section-kicker { color: var(--ink-soft); }
-.modal-title { color: var(--choco); text-align: center; margin: 0 0 6px; }
+.modal-card .section-kicker { color: var(--ink-soft); margin: 0 0 21px; line-height: 1.2; }
+.modal-title { color: var(--choco); text-align: center; margin: 0 0 17px; line-height: 1.15; }
+.modal-intro { color: var(--ink-soft); text-align: center; max-width: 460px; margin: 0 auto 26px; font-size: 0.92rem; line-height: 1.6; letter-spacing: 0.03em; }
 .modal-card .email-line { color: var(--ink-soft); margin: 0 auto 18px; }
 .modal-card .email-line a { color: var(--choco); }
 .modal-close {

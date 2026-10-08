@@ -75,7 +75,7 @@
       <button class="modal-close" type="button" data-close aria-label="Close">&times;</button>
       <p class="section-kicker">Inquiry</p>
       <h2 class="modal-title" id="modalTitle">Charm Cake</h2>
-      <p class="form-fineprint" style="margin: 2px 0 18px;">This sends your inquiry straight to Elizabeth — photos included. It’s a request, not a confirmed order; she’ll reply personally.</p>
+      <p class="modal-intro">Complete the form below with the details of your cake request. We will be in touch to discuss availability, pricing, and next steps.</p>
 
       <form class="intake-modal" id="intakeForm" action="mailto:thedutchyofmillbrook.contact@gmail.com" method="POST">
         <input type="hidden" id="product" name="Cake type" value="" />
@@ -110,17 +110,16 @@
 
         <!-- ===== Charm ===== -->
         <div class="cond" data-when="charm">
-          <h4 class="form-group">Size &amp; starting price</h4>
+          <h4 class="form-group">Size</h4>
           <div class="field">
-            <label for="size">Charm cake size</label>
+            <label for="size">Cake size</label>
             <select id="size" name="Size" required>
               <option value="" disabled selected>Choose…</option>
-              <option>8″ — serves 12–16 — $650</option>
-              <option>10″ — serves 22–24 — $850</option>
-              <option>½ sheet — serves 50–60 — $2,500</option>
+              <option>8″ — serves 12–16</option>
+              <option>10″ — serves 22–24</option>
+              <option>½ sheet — serves 50–60</option>
               <option>Not sure yet</option>
             </select>
-            <p class="form-hint">8″ from $650 · 10″ from $850 · ½ sheet from $2,500</p>
           </div>
           <h4 class="form-group">Your charms</h4>
           <div class="field">
@@ -155,7 +154,6 @@
               </select>
             </div>
           </div>
-          <p class="form-hint">Wedding cakes are bespoke — priced by size &amp; the complexity of the design.</p>
           <h4 class="form-group">The design</h4>
           <div class="field">
             <label for="wvision">Your vision</label>
@@ -172,15 +170,20 @@
           <h4 class="form-group">Size &amp; details</h4>
           <div class="field-row">
             <div class="field">
-              <label for="lsize">Size / servings</label>
-              <input type="text" id="lsize" required name="Size" placeholder="Approx. number of guests" />
+              <label for="lsize">Cake size</label>
+              <select id="lsize" name="Size" required>
+                <option value="" disabled selected>Choose…</option>
+                <option>8″ — serves 12–16</option>
+                <option>10″ — serves 22–24</option>
+                <option>½ sheet — serves 50–60</option>
+                <option>Not sure yet</option>
+              </select>
             </div>
             <div class="field">
               <label for="lcolor">Colors</label>
               <input type="text" id="lcolor" name="Needlepoint colors" placeholder="e.g. pink, yellow, blue…" />
             </div>
           </div>
-          <p class="form-hint">Bespoke — priced by size &amp; design.</p>
           <div class="field">
             <label for="linscription">Inscription <span class="opt">(optional)</span></label>
             <input type="text" id="linscription" name="Inscription" />
@@ -192,15 +195,20 @@
           <h4 class="form-group">Size &amp; details</h4>
           <div class="field-row">
             <div class="field">
-              <label for="tsize">Size / servings</label>
-              <input type="text" id="tsize" required name="Size" placeholder="Approx. number of guests" />
+              <label for="tsize">Cake size</label>
+              <select id="tsize" name="Size" required>
+                <option value="" disabled selected>Choose…</option>
+                <option>8″ — serves 12–16</option>
+                <option>10″ — serves 22–24</option>
+                <option>½ sheet — serves 50–60</option>
+                <option>Not sure yet</option>
+              </select>
             </div>
             <div class="field">
               <label for="tcolor">Trellis colors / florals</label>
               <input type="text" id="tcolor" name="Trellis style" placeholder="e.g. green trellis, roses…" />
             </div>
           </div>
-          <p class="form-hint">Bespoke — priced by size &amp; design.</p>
           <div class="field">
             <label for="tinscription">Inscription <span class="opt">(optional)</span></label>
             <input type="text" id="tinscription" name="Inscription" />
@@ -213,6 +221,16 @@
           <div class="field">
             <label for="otherDesc">Tell Elizabeth what you’re imagining</label>
             <textarea id="otherDesc" name="Idea" rows="4" placeholder="A book cake, a theme, a shape, a reference you love…"></textarea>
+          </div>
+          <div class="field">
+            <label for="osize">Cake size</label>
+            <select id="osize" name="Size" required>
+              <option value="" disabled selected>Choose…</option>
+              <option>8″ — serves 12–16</option>
+              <option>10″ — serves 22–24</option>
+              <option>½ sheet — serves 50–60</option>
+              <option>Not sure yet</option>
+            </select>
           </div>
         </div>
 
@@ -263,12 +281,12 @@
             </select>
           </div>
           <div class="field">
-            <label for="address">If delivery, your address <span class="opt">(she’ll send a quote)</span></label>
+            <label for="address">If delivery, your address</label>
             <input type="text" id="address" name="Delivery address" placeholder="Street, city, ZIP" />
           </div>
           <h4 class="form-group">Photos &amp; notes</h4>
           <div class="field">
-            <label for="photos">Upload photos <span class="opt">(pets, references — add as many as you like)</span></label>
+            <label for="photos">Upload photos <span class="opt">(pets, references, ETC.)</span></label>
             <input type="file" id="photos" name="Photos" accept="image/*,application/pdf" multiple />
             <p class="upload-list" id="uploadList" hidden></p>
           </div>
@@ -276,7 +294,7 @@
             <label for="notes">Anything else?</label>
             <textarea id="notes" name="Notes" rows="3" placeholder="Dietary needs, questions — anything that helps."></textarea>
           </div>
-          <p class="note">The outside is always vanilla French buttercream. Please remember — cakes must be refrigerated.</p>
+          <p class="note">The outside is always vanilla French buttercream. Please remember THAT cakes must be refrigerated.</p>
           <button type="submit" class="btn btn-primary btn-block">Send my inquiry</button>
         </div>
       </form>
