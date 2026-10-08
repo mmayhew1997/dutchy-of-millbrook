@@ -119,14 +119,14 @@ em { font-style: normal; color: var(--pink); }
   text-align: center; max-width: 1040px; margin: 0 auto;
   padding: clamp(10px, 2.4vw, 26px) clamp(20px, 5vw, 60px) clamp(36px, 6vw, 72px);
 }
-.home-logo { width: clamp(120px, 19vw, 158px); height: auto; margin: 0 auto 2px; display: block; }
+.home-logo { width: clamp(150px, 26vw, 220px); height: auto; margin: 0 auto 2px; display: block; }
 .home-title { font-size: clamp(1.6rem, 3.4vw, 2.4rem); letter-spacing: 0.18em; margin: 0 0 6px; }
 .home-title em { color: var(--cream); }
 .home-tag {
   font-family: var(--display); text-transform: uppercase; letter-spacing: 0.16em;
   font-size: 0.82rem; color: var(--pink); margin: 0 0 22px;
 }
-.home-cta { margin: 0 0 32px; }
+.home-cta { margin: 34px 0 40px; }
 .home-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 1080px; margin: 0 auto; }
 .home-grid img {
   width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
@@ -261,6 +261,13 @@ h2, .section-kicker { text-align: center; }
 .faq details p { color: var(--cream-dim); margin: 14px 0 0; letter-spacing: 0.02em; font-size: 1rem; line-height: 1.7; }
 .faq details a { color: var(--pink); }
 .faq-cta { text-align: center; margin-top: 40px; }
+
+/* ---------- Terms ---------- */
+.terms { max-width: 760px; margin: 0 auto; padding: clamp(28px,4vw,48px) clamp(20px,6vw,72px) clamp(48px,7vw,96px); }
+.terms h2 { font-size: 1.05rem; letter-spacing: 0.16em; color: var(--pink); margin: 36px 0 12px; padding-top: 24px; border-top: 1px solid var(--line); }
+.terms h2:first-child { margin-top: 0; }
+.terms p { color: var(--cream-dim); margin: 0 0 14px; letter-spacing: 0.02em; font-size: 1rem; line-height: 1.7; }
+.terms-contact { text-align: center; margin-top: 40px !important; }
 .faq-cta p { color: var(--cream-dim); margin: 0 0 14px; letter-spacing: 0.05em; }
 
 /* ---------- Custom Orders: cake-type cards ---------- */
@@ -380,6 +387,10 @@ select {
 .footer-links-list a:hover { color: var(--cream); }
 .footer-links a { color: var(--pink); text-decoration: none; letter-spacing: 0.08em; font-size: 0.85rem; }
 .footer-links span { margin: 0 10px; opacity: .5; }
+.footer-icons { display: flex !important; flex-direction: row !important; justify-content: center; gap: 22px; margin: 4px 0 0; }
+.footer-icons a { color: var(--cream); display: inline-flex; }
+.footer-icons a:hover { color: var(--pink); }
+.footer-icons svg { width: 22px; height: 22px; display: block; }
 .footer-fine { margin-top: 18px; font-size: .82rem; color: var(--cream-dim); letter-spacing: 0.04em; }
 
 /* ---------- File upload field ---------- */
@@ -553,4 +564,24 @@ input[type="file"] { padding: 9px 10px; font-size: 0.88rem; background: #fff; cu
   .steps { grid-template-columns: 1fr; }
   .how-detail { grid-template-columns: 1fr; }
   .field-row { grid-template-columns: 1fr; }
+}
+
+/* Long email addresses wrap instead of running off narrow screens. */
+a[href^="mailto:"] { overflow-wrap: anywhere; }
+
+/* ---------- Phones (iPhone SE 375px and up) ---------- */
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .nav { grid-template-columns: 1fr; padding: 12px 16px; }
+  .nav-social { display: none; }   /* Instagram + email live in the footer */
+  .nav-links { flex-wrap: nowrap; gap: clamp(14px, 5vw, 22px); }
+  .nav-links a { font-size: 0.72rem; letter-spacing: 0.12em; }
+  .home-title { font-size: 1.45rem; letter-spacing: 0.12em; }
+  .home-cta { margin: 26px 0 32px; }
+  .home-grid { gap: 6px; }
+  .home-grid img:nth-child(n+16) { display: none; }   /* 15 = five even rows of 3 */
+  /* footer: Instagram and email on their own lines; email fits on one line */
+  .footer-links { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+  .footer-links span { display: none; }
+  .footer-links a[href^="mailto:"] { font-size: 0.72rem; letter-spacing: 0.02em; }
 }

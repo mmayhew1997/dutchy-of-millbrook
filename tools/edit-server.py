@@ -23,7 +23,7 @@ import sys
 from html.parser import HTMLParser
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8000
+PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
 
 # Elements whose text can be edited.
 TEXT_TAGS = {"h1", "h2", "h3", "h4", "h5", "h6", "p", "li", "a", "button",
@@ -174,7 +174,8 @@ EDITOR_JS = r"""
   };
   $('__edsave').onclick = async () => {
     const edits = els.filter(el => el.innerHTML !== original.get(el))
-      .map(el => ({ id: +el.dataset.ed, html: el.innerHTML.replace(/&nbsp;/g, ' ') }));
+      // Text cleared entirely → send "" so the server removes the element (no empty gap left behind).
+      .map(el => ({ id: +el.dataset.ed, html: el.textContent.trim() ? el.innerHTML.replace(/&nbsp;/g, ' ') : '' }));
     if (!edits.length) { setEditing(false); return; }
     msg('Saving…');
     try {
@@ -226,6 +227,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         for n, (start, name_end, _, _) in reversed(list(enumerate(scan(src)))):
             out = out[:name_end] + f' data-ed="{n}"' + out[name_end:]
         out = re.sub(r"<html\b", f'<html data-ed-version="{version(path)}"', out, count=1)
+        # Cache-bust local CSS/JS so the browser never shows stale styling.
+        out = re.sub(r'((?:href|src)="(?!https?:|//)[^"]+\.(?:css|js))"',
+                     lambda m: f'{m.group(1)}?v={version(os.path.join(ROOT, m.group(1).split(chr(34))[1]))}"'
+                     if os.path.isfile(os.path.join(ROOT, m.group(1).split(chr(34))[1])) else m.group(0), out)
         tag = '<script src="/__edit.js"></script>\n'
         i = out.lower().rfind("</body>")
         out = out[:i] + tag + out[i:] if i >= 0 else out + tag
@@ -246,8 +251,17 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             spans = scan(src)
             edits = sorted(req["edits"], key=lambda e: e["id"], reverse=True)
             for e in edits:
-                _, _, a, b = spans[int(e["id"])]
+                start, name_end, a, b = spans[int(e["id"])]
                 new = e["html"]
+                if not new.strip():
+                    # Emptied: drop the whole element (and its line, if it had one to itself).
+                    end = src.find(">", b) + 1  # end of </tag>
+                    line_start = src.rfind("\n", 0, start) + 1
+                    line_end = src.find("\n", end)
+                    if not src[line_start:start].strip() and line_end >= 0 and not src[end:line_end].strip():
+                        start, end = line_start, line_end + 1
+                    src = src[:start] + src[end:]
+                    continue
                 # Keep the source's indentation style for multi-line blocks.
                 if src[a:b].startswith("\n") and not new.startswith("\n"):
                     lead = re.match(r"\n[ \t]*", src[a:b]).group(0)

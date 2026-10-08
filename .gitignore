@@ -13,3 +13,4 @@ Real Photos/
 
 # Potential customer PII — keep out of the public repo
 assets/Sample order form.PNG
+__pycache__/
