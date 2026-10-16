@@ -23,7 +23,10 @@ import sys
 from html.parser import HTMLParser
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
+# Usage: edit-server.py [port] [--view]   (--view = no "Edit text" button)
+ARGS = [a for a in sys.argv[1:] if not a.startswith("--")]
+VIEW_ONLY = "--view" in sys.argv
+PORT = int(ARGS[0]) if ARGS else 8080
 
 # Elements whose text can be edited.
 TEXT_TAGS = {"h1", "h2", "h3", "h4", "h5", "h6", "p", "li", "a", "button",
@@ -231,7 +234,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         out = re.sub(r'((?:href|src)="(?!https?:|//)[^"]+\.(?:css|js))"',
                      lambda m: f'{m.group(1)}?v={version(os.path.join(ROOT, m.group(1).split(chr(34))[1]))}"'
                      if os.path.isfile(os.path.join(ROOT, m.group(1).split(chr(34))[1])) else m.group(0), out)
-        tag = '<script src="/__edit.js"></script>\n'
+        tag = '' if VIEW_ONLY else '<script src="/__edit.js"></script>\n'
         i = out.lower().rfind("</body>")
         out = out[:i] + tag + out[i:] if i >= 0 else out + tag
         self.send_body(200, out, "text/html; charset=utf-8")
@@ -281,5 +284,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     http.server.ThreadingHTTPServer.allow_reuse_address = True
-    print(f"Dutchy site with editing → http://localhost:{PORT}/   (Ctrl+C to stop)")
+    mode = "view only" if VIEW_ONLY else "with editing"
+    print(f"Dutchy site ({mode}) → http://localhost:{PORT}/   (Ctrl+C to stop)")
     http.server.ThreadingHTTPServer(("127.0.0.1", PORT), Handler).serve_forever()
